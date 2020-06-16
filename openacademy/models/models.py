@@ -3,6 +3,8 @@
 from odoo import models, fields, api
 from datetime import datetime
 
+from odoo.exceptions import ValidationError
+
 
 class Course(models.Model):
     _name = 'openacademy.course'
@@ -46,15 +48,11 @@ class Session(models.Model):
     course = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
     room_size = fields.Integer(required=True)
 
-    status = fields.Char(compute='_compute_status')
+    state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")],
+                             default='draft', )
 
-    @api.depends('start', 'end')
-    def _compute_status(self):
-        now = datetime.now()
+    @api.constrains('attendees')
+    def _check_attendee_limit(self):
         for record in self:
-            if record.start > now:
-                record.status = 'Planned'
-            elif record.end < now:
-                record.status = "In Preparation"
-            else:
-                record.status = "In Progress"
+            if len(record.attendees) > record.room_size:
+                raise ValidationError("Room can only accommodate %s attendees" % record.room_size)
