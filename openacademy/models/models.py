@@ -8,7 +8,7 @@ class Course(models.Model):
     _name = 'openacademy.course'
     _description = 'Course'
 
-    name = fields.Char()
+    name = fields.Char(required=True)
     # value = fields.Integer()
     # value2 = fields.Float(compute='_value_pc', store=True)
     # description = fields.Text()
@@ -23,27 +23,28 @@ class Maester(models.Model):
     _name = 'openacademy.maester'
     _description = 'Maester'
 
-    name = fields.Char()
+    name = fields.Char(required=True)
 
 
 class Level(models.Model):
     _name = 'openacademy.level'
     _description = 'Level'
 
-    name = fields.Char()
-    level = fields.Integer()
+    name = fields.Char(required=True)
+    level = fields.Integer(required=True)
 
 
 class Session(models.Model):
     _name = 'openacademy.session'
     _description = 'Session'
 
-    name = fields.Char()
-    start = fields.Datetime()
-    end = fields.Datetime()
-    level = fields.Many2one(comodel_name='openacademy.level')
-    attendees = fields.Many2many(comodel_name='res.partner')
-    course = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade')
+    name = fields.Char(required=True)
+    start = fields.Datetime(required=True)
+    end = fields.Datetime(required=True)
+    level = fields.Many2one(comodel_name='openacademy.level', required=True)
+    attendees = fields.Many2many(comodel_name='res.partner', required=True)
+    course = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
+    room_size = fields.Integer(required=True)
 
     status = fields.Char(compute='_compute_status')
 
