@@ -11,14 +11,7 @@ class Course(models.Model):
     _description = 'Course'
 
     name = fields.Char(required=True)
-    # value = fields.Integer()
-    # value2 = fields.Float(compute='_value_pc', store=True)
-    # description = fields.Text()
-
-    # @api.depends('value')
-    # def _value_pc(self):
-    #     for record in self:
-    #         record.value2 = float(record.value) / 100
+    session_ids = fields.One2many(comodel_name='openacademy.session', inverse_name="course_id")
 
 
 class Maester(models.Model):
@@ -40,19 +33,26 @@ class Session(models.Model):
     _name = 'openacademy.session'
     _description = 'Session'
 
-    name = fields.Char(required=True)
     start = fields.Datetime(required=True)
     end = fields.Datetime(required=True)
-    level = fields.Many2one(comodel_name='openacademy.level', required=True)
-    attendees = fields.Many2many(comodel_name='res.partner', required=True)
-    course = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
+    level_id = fields.Many2one(comodel_name='openacademy.level', required=True)
+    maester_id = fields.Many2one(comodel_name='openacademy.maester')
+    attendee_ids = fields.Many2many(comodel_name='res.partner', required=True)
+    course_id = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
     room_size = fields.Integer(required=True)
+    number_of_attendees = fields.Integer(computed='_count_attendees', readonly=True)
+    course_name = fields.Char(related='course_id.name', store=True)
 
-    state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")],
-                             default='draft', )
+    states = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")],
+                              default='draft', )
 
-    @api.constrains('attendees')
+    @api.depends('attendee_ids')
+    def _count_attendees(self):
+        for record in self:
+            record.number_of_attendees = len(record.attendee_ids)
+
+    @api.constrains('attendee_ids')
     def _check_attendee_limit(self):
         for record in self:
-            if len(record.attendees) > record.room_size:
+            if len(record.attendee_ids) > record.room_size:
                 raise ValidationError("Room can only accommodate %s attendees" % record.room_size)
