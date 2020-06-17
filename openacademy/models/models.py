@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-from datetime import datetime
 
 from odoo.exceptions import ValidationError
 
@@ -32,6 +31,8 @@ class Level(models.Model):
 class Session(models.Model):
     _name = 'openacademy.session'
     _description = 'Session'
+
+    _rec_name = 'course_name'
 
     start = fields.Datetime(required=True)
     end = fields.Datetime(required=True)

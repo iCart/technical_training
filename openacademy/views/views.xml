@@ -35,7 +35,6 @@
                         date_stop="end"
                         color="course_id"
                 >
-                    <field name="course_name"/>
                 </calendar>
             </field>
         </record>
