@@ -1,30 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <data>
-<!--
-          <record id="object0" model="library.library">
-            <field name="name">Object 0</field>
-            <field name="value">0</field>
+          <record id="author1" model="library.author">
+              <field name="name">JJ Doc martin something</field>
           </record>
 
-          <record id="object1" model="library.library">
-            <field name="name">Object 1</field>
-            <field name="value">10</field>
+          <record id="editor1" model="library.editor">
+              <field name="name">Anne Groell</field>
           </record>
 
-          <record id="object2" model="library.library">
-            <field name="name">Object 2</field>
-            <field name="value">20</field>
+          <record id="book1" model="library.book">
+              <field name="title">A game of ice and fire</field>
+              <field name="authors" eval="[ref('author1')]"/>
+              <field name="year_of_edition">2010</field>
+              <field name="isbn">12-34-5678-9123</field>
+              <field name="language">1</field>
+              <field name="editor" ref="editor1"/>
           </record>
-
-          <record id="object3" model="library.library">
-            <field name="name">Object 3</field>
-            <field name="value">30</field>
-          </record>
-
-          <record id="object4" model="library.library">
-            <field name="name">Object 4</field>
-            <field name="value">40</field>
-          </record>
--->
     </data>
 </odoo>

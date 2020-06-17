@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from exceptions import ValidationError
+from odoo.exceptions import ValidationError
 from odoo import models, fields, api
 from odoo import _
 
@@ -10,7 +10,7 @@ class Book(models.Model):
 
     title = fields.Char(required=True)
     authors = fields.Many2many(comodel_name='library.author', required=True)
-    year_of_edition = fields.Integer(required=True)
+    year_of_edition = fields.Char(required=True) # Char for better display and things like "340 BCE"
     isbn = fields.Char(size=17)  # 13 digits for ISBN + 4 dashes
     language = fields.Many2one(comodel_name='res.lang')  # Assuming books are only ever in one language
     editor = fields.Many2one(comodel_name='library.editor', required=True)
