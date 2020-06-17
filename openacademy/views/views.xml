@@ -20,9 +20,45 @@
                     <field name="level_id"/>
                     <field name="start"/>
                     <field name="end"/>
-                    <field name="number_of_attendees"/>
-                    <field name="room_size"/>
+                    <field name="taken_seats" widget="progressbar" string="Taken seats"/>
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="openacademy.session_form">
+            <field name="name">openacademy_session_form</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <div class="oe_button_box">
+                            <BUTTONS/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="start"/>
+                                <field name="end"/>
+                            </group>
+                            <group>
+                                <field name="level_id"/>
+                                <field name="room_size"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="course_id"/>
+                            <field name="maester_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Attendees">
+                                <field name="taken_seats" widget="progressbar" string="Taken seats"/>
+                                <field name="attendee_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
             </field>
         </record>
 
@@ -54,7 +90,10 @@
         </record>
 
         <!-- Top menu item -->
-        <menuitem name="Open Academy" id="openacademy.menu_root"/>
+        <menuitem name="Open Academy"
+                  id="openacademy.menu_root"
+                  web_icon="openacademy,static/description/icon.png"
+        />
         <!-- menu categories -->
         <menuitem name="Courses" id="openacademy.menu_course" parent="openacademy.menu_root" action="openacademy.course_action_window"/>
         <menuitem name="Sessions" id="openacademy.menu_session" parent="openacademy.menu_root" action="openacademy.session_action_window"/>

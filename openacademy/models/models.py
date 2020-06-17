@@ -41,16 +41,19 @@ class Session(models.Model):
     attendee_ids = fields.Many2many(comodel_name='res.partner', required=True)
     course_id = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
     room_size = fields.Integer(required=True)
-    number_of_attendees = fields.Integer(computed='_count_attendees', readonly=True)
+    number_of_attendees = fields.Integer(computed='_compute_capacity', readonly=True)
     course_name = fields.Char(related='course_id.name', store=True)
+    taken_seats = fields.Float(computed='_compute_capacity')
 
-    states = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")],
-                              default='draft', )
+    state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")],
+                             default='draft', )
 
-    @api.depends('attendee_ids')
-    def _count_attendees(self):
+    @api.onchange('attendee_ids', 'room_size')
+    def _compute_capacity(self):
         for record in self:
-            record.number_of_attendees = len(record.attendee_ids)
+            n_attendees = len(record.attendee_ids)
+            record.taken_seats = (n_attendees / record.room_size) * 100
+            record.number_of_attendees = n_attendees
 
     @api.constrains('attendee_ids')
     def _check_attendee_limit(self):
