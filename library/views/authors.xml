@@ -27,7 +27,7 @@
         </record>
 
         <record model="ir.ui.view" id="library_author_search">
-            <field name="name">Author List</field>
+            <field name="name">Author Search</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <search>

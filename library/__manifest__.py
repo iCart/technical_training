@@ -29,6 +29,7 @@
         'views/books.xml',
         'views/authors.xml',
         'views/rentals.xml',
+        'views/partners.xml',
         # 'views/templates.xml',
     ],
     # only loaded in demonstration mode

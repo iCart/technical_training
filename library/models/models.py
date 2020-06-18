@@ -21,6 +21,7 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     is_author = fields.Boolean(default=False)
+    rentals = fields.One2many(comodel_name='library.rental', inverse_name='customer')
 
 
 class Editor(models.Model):
