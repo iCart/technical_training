@@ -9,18 +9,17 @@ class Book(models.Model):
     _description = 'Book'
 
     title = fields.Char(required=True)
-    authors = fields.Many2many(comodel_name='library.author', required=True)
-    year_of_edition = fields.Char(required=True) # Char for better display and things like "340 BCE"
+    authors = fields.Many2many(comodel_name='res.partner', required=True)
+    year_of_edition = fields.Char(required=True)  # Char for better display and things like "340 BCE"
     isbn = fields.Char(size=17)  # 13 digits for ISBN + 4 dashes
     language = fields.Many2one(comodel_name='res.lang')  # Assuming books are only ever in one language
     editor = fields.Many2one(comodel_name='library.editor', required=True)
 
 
-class Author(models.Model):
-    _name = 'library.author'
-    _description = 'Author'
+class Partner(models.Model):
+    _inherit = "res.partner"
 
-    name = fields.Char(required=True)
+    is_author = fields.Boolean(default=False)
 
 
 class Editor(models.Model):
@@ -39,7 +38,7 @@ class Rental(models.Model):
     rental_date = fields.Date(required=True)
     return_date = fields.Date()
 
-    customer_name = fields.Char(related='customer.display_name', store=True)
+    customer_name = fields.Char(related='customer.display_name', store=True, label="Customer's Name")
     book_names = fields.Char(related='books.title', store=True)
 
     @api.constrains('rental_date', 'return_date')

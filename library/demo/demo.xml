@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <data>
-          <record id="author1" model="library.author">
+          <record id="author1" model="res.partner">
               <field name="name">JJ Doc martin something</field>
+              <field name="is_author">True</field>
           </record>
 
           <record id="editor1" model="library.editor">

@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_library_book,access_library_book,model_library_book,base.group_user,1,1,1,1
-access_library_author,access_library_author,model_library_author,base.group_user,1,1,1,1
-access_library_editor,access_library_editor,model_library_editor,base.group_user,1,1,1,1 
-access_library_rental,access_library_rental,model_library_rental,base.group_user,1,1,1,1 
+access_library_editor,access_library_editor,model_library_editor,base.group_user,1,1,1,1
+access_library_rental,access_library_rental,model_library_rental,base.group_user,1,1,1,1

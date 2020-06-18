@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Book views: list view, form view, and search filters -->
+        <record model="ir.ui.view" id="library.book_list">
+            <field name="name">Book List</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="authors" widget="many2many_tags"/>
+                    <field name="year_of_edition"/>
+                    <field name="isbn"/>
+                    <field name="language"/>
+                    <field name="editor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="library.book_form">
+            <field name="name">Edit Book</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="title"/>
+                        <field name="editor"/>
+                    </group>
+                    <group>
+                        <field name="year_of_edition"/>
+                        <field name="isbn"/>
+                        <field name="language"/>
+                    </group>
+                    <notebook>
+                        <page string="Author(s)">
+                            <field name="authors" domain="[('is_author', '=', True)]"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="library_book_search">
+            <field name="name">Author List</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="title"/>
+                    <field name="isbn"/>
+                    <field name="authors"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="library.book_window">
+            <field name="name">Books</field>
+            <field name="res_model">library.book</field>
+            <field name="views">tree,form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a book.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
