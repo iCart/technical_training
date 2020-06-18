@@ -46,5 +46,8 @@
             <field name="context">{"search_default_is_author_filter":1}</field>
         </record>
 
+        <menuitem name="Authors" id="library.menu_author_list" parent="library.menu_root"
+                  action="library_author_action"/>
+
     </data>
 </odoo>

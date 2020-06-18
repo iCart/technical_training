@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# noinspection PyStatementEffect
 {
     'name': "Library",
 
@@ -27,8 +26,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
-        'views/authors.xml',
         'views/books.xml',
+        'views/authors.xml',
+        'views/rentals.xml',
         # 'views/templates.xml',
     ],
     # only loaded in demonstration mode

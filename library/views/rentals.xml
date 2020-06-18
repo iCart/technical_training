@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Rental views: list view, form view, and search filters -->
+        <record model="ir.ui.view" id="library_rental_list">
+            <field name="name">Rentals List</field>
+            <field name="model">library.rental</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="(not date_returned) and return_date &lt; current_date">
+                    <field name="books" widget="many2many_tags"/>
+                    <field name="customer"/>
+                    <field name="rental_date"/>
+                    <field name="return_date"/>
+                    <field name="date_returned"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="library_rental_form">
+            <field name="name">Edit Rental</field>
+            <field name="model">library.rental</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="customer"/>
+                    </group>
+                    <group>
+                        <field name="rental_date"/>
+                        <field name="return_date"/>
+                    </group>
+                    <group>
+                        <field name="date_returned"/>
+                    </group>
+                    <notebook>
+                        <page string="Books">
+                            <field name="books"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="library_rental_search">
+            <field name="name">Rental Search</field>
+            <field name="model">library.rental</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="rental_date"/>
+                    <filter string="Unreturned" domain="[('date_returned', '=', None)]" name="unreturned_filter"/>
+                    <filter string="Late" domain="['&amp;', ('date_returned', '=', None), ('return_date', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]" name="late_filter"/>
+                    <field name="books"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="library_rental_action">
+            <field name="name">Rentals</field>
+            <field name="res_model">library.rental</field>
+            <field name="views">tree,form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Rentals" id="library.menu_rental_list" parent="library.menu_root"
+                  action="library_rental_action"/>
+    </data>
+</odoo>

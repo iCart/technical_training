@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+
         <!-- Top menu item -->
         <menuitem name="Library" id="library.menu_root"/>
         <!-- actions -->
-        <menuitem name="Books" id="library.menu_book_list" parent="library.menu_root"
-                  action="library.book_window"/>
-        <menuitem name="Authors" id="library.menu_author_list" parent="library.menu_root"
-                  action="library_author_action"/>
+
+
+
     </data>
 </odoo>

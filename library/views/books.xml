@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <!-- Book views: list view, form view, and search filters -->
-        <record model="ir.ui.view" id="library.book_list">
+        <record model="ir.ui.view" id="library_book_list">
             <field name="name">Book List</field>
             <field name="model">library.book</field>
             <field name="arch" type="xml">
@@ -17,7 +17,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="library.book_form">
+        <record model="ir.ui.view" id="library_book_form">
             <field name="name">Edit Book</field>
             <field name="model">library.book</field>
             <field name="arch" type="xml">
@@ -41,7 +41,7 @@
         </record>
 
         <record model="ir.ui.view" id="library_book_search">
-            <field name="name">Author List</field>
+            <field name="name">Book Search</field>
             <field name="model">library.book</field>
             <field name="arch" type="xml">
                 <search>
@@ -54,7 +54,7 @@
 
 
         <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="library.book_window">
+        <record model="ir.actions.act_window" id="library_book_action">
             <field name="name">Books</field>
             <field name="res_model">library.book</field>
             <field name="views">tree,form</field>
@@ -65,5 +65,8 @@
                 </p>
             </field>
         </record>
+
+        <menuitem name="Books" id="library.menu_book_list" parent="library.menu_root"
+                  action="library_book_action"/>
     </data>
 </odoo>

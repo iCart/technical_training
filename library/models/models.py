@@ -7,6 +7,7 @@ from odoo import _
 class Book(models.Model):
     _name = 'library.book'
     _description = 'Book'
+    _rec_name = 'title'
 
     title = fields.Char(required=True)
     authors = fields.Many2many(comodel_name='res.partner', required=True)
@@ -32,14 +33,13 @@ class Editor(models.Model):
 class Rental(models.Model):
     _name = 'library.rental'
     _description = 'Book Rental'
+    _rec_name = 'customer'
 
     books = fields.Many2many(comodel_name='library.book', required=True)
     customer = fields.Many2one(comodel_name='res.partner', required=True)
     rental_date = fields.Date(required=True)
-    return_date = fields.Date()
-
-    customer_name = fields.Char(related='customer.display_name', store=True, label="Customer's Name")
-    book_names = fields.Char(related='books.title', store=True)
+    return_date = fields.Date(help="When the books should be returned", required=True)
+    date_returned = fields.Date(help="When the books were returned")
 
     @api.constrains('rental_date', 'return_date')
     def _return_after_rental(self):
