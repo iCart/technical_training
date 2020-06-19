@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="library.book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet name="book_info">
+                    <group>
+                        <field name="name"/>
+                        <field name="edition_date"/>
+                        <field name="isbn"/>
+                        <field name="publisher_id"/>
+                    </group>
+                    <notebook>
+                        <page name="authors" string="Authors">
+                            <field name="author_ids"/>
+                        </page>
+                        <page string="Rentals" name="rentals">
+                            <field name="rental_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="library.book_copy_form" model="ir.ui.view">
+        <field name="name">library.book_copy_form</field>
+        <field name="model">library.book_copy</field>
+        <field name="inherit_id" ref="library.book_form"/>
+        <field name="type">form</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='publisher_id']" position="after">
+                <field name="internal_id"/>
+            </xpath>
+        </field>
+    </record>
+
     <record id="book_action" model="ir.actions.act_window">
-        <field name="name">Books</field>
-        <field name="res_model">library.book</field>
+        <field name="name">Book Copies</field>
+        <field name="res_model">library.book_copy</field>
         <field name="view_mode">tree,form</field>
     </record>
 </odoo>
