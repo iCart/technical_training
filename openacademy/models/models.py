@@ -13,13 +13,6 @@ class Course(models.Model):
     session_ids = fields.One2many(comodel_name='openacademy.session', inverse_name="course_id")
 
 
-class Maester(models.Model):
-    _name = 'openacademy.maester'
-    _description = 'Maester'
-
-    name = fields.Char(required=True)
-
-
 class Level(models.Model):
     _name = 'openacademy.level'
     _description = 'Level'
@@ -37,7 +30,7 @@ class Session(models.Model):
     start = fields.Datetime(required=True)
     end = fields.Datetime(required=True)
     level_id = fields.Many2one(comodel_name='openacademy.level', required=True)
-    maester_id = fields.Many2one(comodel_name='openacademy.maester')
+    instructor_id = fields.Many2one(comodel_name='res.partner')
     attendee_ids = fields.Many2many(comodel_name='res.partner', required=True)
     course_id = fields.Many2one(comodel_name='openacademy.course', on_delete='cascade', required=True)
     room_size = fields.Integer(required=True)
@@ -51,6 +44,9 @@ class Session(models.Model):
     @api.onchange('attendee_ids', 'room_size')
     def _compute_capacity(self):
         for record in self:
+            if record.room_size == 0:
+                return 0
+
             n_attendees = len(record.attendee_ids)
             record.taken_seats = (n_attendees / record.room_size) * 100
             record.number_of_attendees = n_attendees
