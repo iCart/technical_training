@@ -3,7 +3,7 @@ from odoo import fields, models
 
 
 class Partner(models.Model):
-    _name = 'openacademy.partner'
+    _inherit = 'res.partner'
     _description = 'Partner'
 
     name = fields.Char()
