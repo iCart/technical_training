@@ -1,41 +1,38 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Library",
+    'name':        "Library Management",
 
-    'summary': """
-        Library management
-    """,
+    'summary':
+                   """
+                   Library management
+                   """,
 
     'description': """
-        Library module for Books and Rentals
+        Manage a Library: customers, books, etc.... 
     """,
 
-    'author': "SyF",
-    'website': "http://www.example.com",
+    'author':      "Odoo",
+    'website':     "http://www.odoo.com",
 
     # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
+    # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'module_category_extra',
-    'version': '0.1',
+    'category':    'Library',
+    'version':     '0.3',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts'],
+    'depends':     ['base'],
 
     # always loaded
-    'data': [
-        'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/books.xml',
-        'views/authors.xml',
-        'views/rentals.xml',
-        'views/partners.xml',
-        # 'views/templates.xml',
+    'data':        [
+        "security/ir.model.access.csv",
+        "views/book_views.xml",
+        "views/partner_views.xml",
+        "views/rental_views.xml",
+        "views/menu_views.xml",
+        "data/library_data.xml",
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
-
-    'application': True
+    'demo':        [],
+    'license': 'AGPL-3',
 }
