@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="openacademy.instructor_form" model="ir.ui.view">
+        <field name="name">openacademy.instructor_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_type']" position="after">
+                <group>
+                    <field name="instructor" string="Is Instructor"/>
+                </group>
+            </xpath>
+            <page name="sales_purchases" position="before">
+                <page string="Attending Sessions" name="sessions">
+                    <field name="session_ids"/>
+                </page>
+            </page>
+        </field>
+    </record>
+
     <record id="session_view_list" model="ir.ui.view">
         <field name="name">openacademy.session.list</field>
         <field name="model">openacademy.session</field>
