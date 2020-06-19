@@ -14,3 +14,11 @@ class Books(models.Model):
     publisher_id = fields.Many2one('library.publisher', string='Publisher')
 
     rental_ids = fields.One2many('library.rental', 'book_id', string='Rentals')
+
+
+class BookCopy(models.Model):
+    _name = 'library.book_copy'
+    _description = 'Book Copy'
+    _inherits = {'library.book': 'book'}
+
+    internal_id = fields.Char()
