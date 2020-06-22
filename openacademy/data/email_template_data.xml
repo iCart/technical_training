@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="session_confirmed_template" model="mail.template">
+            <field name="name">Session: Confirmed</field>
+            <field name="model_id" ref="model_openacademy_session"/>
+            <field name="email_from">${(object.responsible_id.email or '')|safe}</field>
+            <field name="email_to">${object.instructor_id.email or ''|safe}</field>
+            <field name="subject">Session object.name confirmed</field>
+            <field name="body_html"><![CDATA[
+        <p>Dear ${object.instructor_id.name},</p>
+        <p>The session ${object.name} has been confirmed.</p>
+        <p>The session will start on ${object.start_date} and last for ${object.duration} days.</p>
+        <p>Best regards,</p>]]></field>
+        </record>
+
+    </data>
+</odoo>

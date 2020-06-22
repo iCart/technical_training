@@ -24,6 +24,7 @@ class Course(models.Model):
 class Session(models.Model):
     _name = 'openacademy.session'
     _description = 'Session'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(required=True)
     description = fields.Html()
@@ -50,6 +51,11 @@ class Session(models.Model):
                 session.taken_seats = 0.0
             else:
                 session.taken_seats = 100.0 * len(session.attendee_ids) / session.seats
+
+            if session.taken_seats > 50 and session.state == 'draft':
+                session.state = 'confirmed'
+                template = self.env.ref('openacademy.session_confirmed_template')
+                session.message_post_with_template(template_id=template.id)
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):

@@ -20,7 +20,7 @@
     'version':     '0.3',
 
     # any module necessary for this one to work correctly
-    'depends':     ['base'],
+    'depends':     ['base', 'mail'],
 
     # always loaded
     'data':        [
@@ -29,6 +29,7 @@
         "views/session_views.xml",
         "views/menu_views.xml",
         "data/openacademy_data.xml",
+        "data/email_template_data.xml"
     ],
     # only loaded in demonstration mode
     'demo':        [],
