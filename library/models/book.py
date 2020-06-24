@@ -5,10 +5,11 @@ from odoo import fields, models
 class Books(models.Model):
     _name = 'library.book'
     _description = 'Book'
+    _inherit = 'product.product'
 
-    name = fields.Char(string='Title')
+    # name = fields.Char(string='Title')
 
-    author_ids = fields.Many2many("library.partner", string="Authors")
+    author_ids = fields.Many2many("res.partner", string="Authors")
     edition_date = fields.Date()
     isbn = fields.Char(string='ISBN')
     publisher_id = fields.Many2one('library.publisher', string='Publisher')

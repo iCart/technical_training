@@ -12,6 +12,9 @@
                         <field name="isbn"/>
                         <field name="publisher_id"/>
                     </group>
+                    <group>
+                        <field name="list_price" string="Price per day"/>
+                    </group>
                     <notebook>
                         <page name="authors" string="Authors">
                             <field name="author_ids"/>
