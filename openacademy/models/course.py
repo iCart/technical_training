@@ -14,11 +14,26 @@ class Course(models.Model):
 
     level = fields.Selection([('1', 'Easy'), ('2', 'Medium'), ('3', 'Hard')], string="Difficulty Level")
     session_count = fields.Integer(compute="_compute_session_count")
+    attendees_count = fields.Integer(compute="_compute_attendees_count")
 
     @api.depends('session_ids')
     def _compute_session_count(self):
         for course in self:
             course.session_count = len(course.session_ids)
+
+    @api.depends('session_ids')
+    def _compute_attendees_count(self):
+        for course in self:
+            course.attendees_count = sum(len(session.attendee_ids) for session in course.session_ids)
+
+    def action_show_participants(self):
+        return {
+            'name': 'Attending %s' % self.name,
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'res_model': 'openacademy.session',
+            'domain': [('course_id', '=', self.id)],
+        }
 
 
 class Session(models.Model):
@@ -68,7 +83,7 @@ class Session(models.Model):
             return
         if self.end_date < self.start_date:
             return {'warning': {
-                'title':   "Incorrect date value",
+                'title': "Incorrect date value",
                 'message': "End date is earlier then start date",
             }}
         delta = fields.Date.from_string(self.end_date) - fields.Date.from_string(self.start_date)
