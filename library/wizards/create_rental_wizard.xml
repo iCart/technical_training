@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <act_window id="create_rental_window"
+                name="Create Rentals"
+                binding_model="library.book_copy"
+                res_model="library.create_rental_wizard"
+                view_mode="form"
+                target="new"
+    />
+
+    <record model="ir.ui.view" id="wizard_rental_form_view">
+        <field name="name">Create Rentals</field>
+        <field name="model">library.create_rental_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Partner">
+                <group>
+                    <field name="book_copy_ids"/>
+                    <field name="partner_id"/>
+                </group>
+                <footer>
+                    <button name="create_rentals" type="object"
+                            string="Rent" class="oe_highlight"/>
+                    or
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

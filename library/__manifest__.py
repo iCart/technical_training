@@ -30,6 +30,7 @@
         "views/partner_views.xml",
         "views/rental_views.xml",
         "views/menu_views.xml",
+        "wizards/create_rental_wizard.xml",
         "data/library_data.xml",
         "data/cron.xml",
     ],
