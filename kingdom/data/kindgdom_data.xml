@@ -9,11 +9,6 @@
         <field name="login">army@kindgdom.com</field>
         <field name="password">army@kindgdom.com</field>
     </record>
-    <record model="res.users" id="army_advisor">
-        <field name="name">Army Advisor</field>
-        <field name="login">army@kindgdom.com</field>
-        <field name="password">army@kindgdom.com</field>
-    </record>
     <record model="res.users" id="economy_advisor">
         <field name="name">Economy Advisor</field>
         <field name="login">gold@kindgdom.com</field>

@@ -1,1 +1,7 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+army_hidden,Hide Army,model_kingdom_army,"",0,0,0,0
+army_manager,Army Commanders,model_kingdom_army,kingdom.group_commanders,1,1,0,0
+army_family,Royal Family Army,model_kingdom_army,kingdom.group_royal_family,1,0,1,1
+economy_hidden,Hide Economy,model_kingdom_city,"",1,1,0,0
+economy_manager,Economy Managers,model_kingdom_city,kingdom.group_economy_adviser,1,1,1,0
+economy_family,Royal Family Economy,model_kingdom_city,kingdom.group_royal_family,1,1,1,1

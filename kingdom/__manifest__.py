@@ -23,7 +23,8 @@
     'depends':     ['base'],
 
     # always loaded
-    'data':        [
+    'data': [
+        "security/groups.xml",
         "security/ir.model.access.csv",
         'data/kindgdom_data.xml',
         'views/army_views.xml',
