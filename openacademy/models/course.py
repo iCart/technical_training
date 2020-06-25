@@ -54,7 +54,7 @@ class Session(models.Model):
 
     instructor_id = fields.Many2one('res.partner', string="Instructor", domain=[('instructor', '=', True)])
     course_id = fields.Many2one('openacademy.course', ondelete='cascade', string="Course", required=True)
-    attendee_ids = fields.Many2many('res.partner', string="Attendees")
+    attendee_ids = fields.Many2many('res.partner', string="Attendees", groups='openacademy.group_maesters,openacademy.group_archmaesters')
     attendees_count = fields.Integer(compute='_get_attendees_count', store=True)
     seats = fields.Integer()
     taken_seats = fields.Float(compute='_compute_taken_seats', store=True)
