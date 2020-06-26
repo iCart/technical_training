@@ -13,6 +13,7 @@
         <field name="email">daenerys@targaryan.org</field>
         <field name="city">Top of the Pyramid</field>
         <field name="country_id" ref="country_mereen"/>
+        <field name="customer">True</field>
     </record>
 
     <record id="customer_tyrion" model="res.partner">
@@ -20,6 +21,7 @@
         <field name="email">tyrion@lannister.org</field>
         <field name="city">Red keep</field>
         <field name="country_id" ref="country_kings_landing"/>
+        <field name="customer">True</field>
     </record>
 
     <record id="author_martin" model="res.partner">

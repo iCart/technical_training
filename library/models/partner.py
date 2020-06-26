@@ -20,6 +20,7 @@ class Partner(models.Model):
     qty_lost_book = fields.Integer(string='Number of book copies lost', compute="_get_lost_books_qty")
     payment_ids = fields.One2many('library.payment', 'customer_id', string='Payments')
     amount_owed = fields.Float(compute="_amount_owed", store=True)
+    customer = fields.Boolean(default=False)
 
     def _get_lost_books_qty(self):
         for rec in self:
