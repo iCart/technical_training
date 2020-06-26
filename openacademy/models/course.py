@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import date
+from odoo import exceptions
+
 from odoo import api, exceptions, fields, models
 
 
@@ -59,6 +62,8 @@ class Session(models.Model):
     seats = fields.Integer()
     taken_seats = fields.Float(compute='_compute_taken_seats', store=True)
 
+    is_paid = fields.Boolean(default=False, string="Has been invoiced")
+
     @api.depends('seats', 'attendee_ids')
     def _compute_taken_seats(self):
         for session in self:
@@ -88,3 +93,41 @@ class Session(models.Model):
             }}
         delta = fields.Date.from_string(self.end_date) - fields.Date.from_string(self.start_date)
         self.duration = delta.days + 1
+
+    def create_invoice(self):
+        """
+        date = today
+        state =draft
+        move_type out_invoice
+        journal_id many2one
+        currency_id many2one
+        partner_id
+        """
+
+        for session_id in self.ids:
+            session = self.env['openacademy.session'].browse(ids=[session_id])[0]
+
+            # Shouldn't happen since we hide the button on the form
+            # but it *might* happen
+            if session.is_paid:
+                raise exceptions.UserError("Creating an invoice for an already invoiced session")
+
+            instructor_id = session.instructor_id
+            previous_bill = self.env['account.move'].search([('partner_id', '=', instructor_id.id)])
+            if previous_bill:
+                bill = previous_bill[0]
+            else:
+                bill = self.env['account.move'].create([{
+                    'date': date.today(),
+                    'state': 'draft',
+                    'type': 'in_invoice',
+                    'partner_id': instructor_id.id,
+                }])
+
+            self.env['account.move.line'].create([{
+                "move_id": bill.id,
+                "name": session.name,
+                "quantity": session.duration,
+                "account_id": instructor_id.property_account_payable_id.id,
+            }])
+            session.is_paid = True

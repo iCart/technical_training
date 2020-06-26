@@ -20,12 +20,12 @@
     'version':     '0.3',
 
     # any module necessary for this one to work correctly
-    'depends':     ['base', 'mail'],
+    'depends':     ['base', 'mail', 'account'],
 
     # always loaded
     'data':        [
-        "security/ir.model.access.csv",
         "security/groups.xml",
+        "security/ir.model.access.csv",
         "views/course_views.xml",
         "views/session_views.xml",
         "views/menu_views.xml",
