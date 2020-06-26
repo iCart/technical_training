@@ -1,39 +1,40 @@
 # -*- coding: utf-8 -*-
-import logging
-from datetime import date
-
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
 
 
 class Partner(models.Model):
-    _description = 'Partner'
     _inherit = 'res.partner'
 
-    name = fields.Char()
-    email = fields.Char()
-    address = fields.Text()
-    partner_type = fields.Selection([('customer', 'Customer'), ('author', 'Author')], default="customer")
-    currency_id = fields.Many2one(related='company_id.currency_id')
+    is_author = fields.Boolean(string="Is an Author", default=False)
+    is_publisher = fields.Boolean(string="Is a Publisher", default=False)
 
-    rental_ids = fields.One2many('library.rental', 'customer_id', string='Rentals')
-    total_owed = fields.Monetary(compute='_compute_total_owed', readonly=True, store=True)
+    current_rental_ids = fields.One2many('library.rental', 'customer_id', string='Current Rentals', domain=[('state', '=', 'rented')])
+    old_rental_ids = fields.One2many('library.rental', 'customer_id', string='Old Rentals', domain=[('state', '=', 'returned')])
+    lost_rental_ids = fields.One2many('library.rental', 'customer_id', string='Lost Rentals', domain=[('state', '=', 'lost')])
 
-    @api.depends('rental_ids')
-    def _compute_total_owed(self):
-        for record in self:
-            record.total_owed = sum(rental.amount_owed for rental in record.rental_ids if not rental.paid)
+    book_ids = fields.Many2many("product.product", string="Books", domain=[('is_book', '=', True)])
+    copy_ids = fields.Many2many("library.copy", string="Book Copies")
+    nationality_id = fields.Many2one('res.country', 'Nationality')
+    birthdate = fields.Date()
 
-    def _cron_return_reminder(self):
-        for customer in self.env['res.partner'].search([]):
-            unreturned_rentals = []
-            for rental in customer.rental_ids:
-                days_rented = (date.today() - rental.rental_date).days
-                if not rental.return_date and days_rented >= 7:  # TODO move the value to settings
-                    unreturned_rentals.append(rental)
+    qty_lost_book = fields.Integer(string='Number of book copies lost', compute="_get_lost_books_qty")
+    payment_ids = fields.One2many('library.payment', 'customer_id', string='Payments')
+    amount_owed = fields.Float(compute="_amount_owed", store=True)
 
-            if unreturned_rentals:
-                _logger.warning('Notifying unreturned rentals for %s: %s', customer, unreturned_rentals)
-                template = self.env.ref('library.return_reminder_template')
-                template.with_context({'late_rentals': unreturned_rentals}).send_mail(customer.id, force_send=True)
+    def _get_lost_books_qty(self):
+        for rec in self:
+            rec.qty_lost_book = len(rec.lost_rental_ids)
+
+    @api.depends('payment_ids.amount')
+    def _amount_owed(self):
+        for rec in self:
+            rec.amount_owed = - sum(rec.payment_ids.mapped('amount'))
+
+
+class Payment(models.Model):
+    _name = 'library.payment'
+    _description = 'Payment'
+
+    date = fields.Date(required=True, default=fields.Date.context_today)
+    amount = fields.Float()
+    customer_id = fields.Many2one('res.partner', string='Customer', domain=[('customer', '=', True)])

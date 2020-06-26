@@ -5,37 +5,66 @@ from odoo import api, fields, models
 class Rentals(models.Model):
     _name = 'library.rental'
     _description = 'Book rental'
-    _rec_name = 'book_copy_id'
+    _order = "rental_date desc,return_date desc"
 
-    customer_id = fields.Many2one('res.partner', string='Customer')
-    book_id = fields.Many2one('library.book', string='Book')
-    book_copy_id = fields.Many2one('library.book_copy', string='Book Copy')
-    currency_id = fields.Many2one(related='book_copy_id.currency_id')
+    customer_id = fields.Many2one('res.partner', string='Customer', domain=[('customer', '=', True)], required=True)
+    copy_id = fields.Many2one('library.copy', string="Book Copy", domain=[('book_state', '=', 'available')], required=True)
+    book_id = fields.Many2one('product.product', string='Book', domain=[('is_book', '=', True)], related='copy_id.book_id', readonly=True)
 
-    rental_date = fields.Date()
-    return_date = fields.Date()
-    is_lost = fields.Boolean(string='Lost or Never Returned')
+    rental_date = fields.Date(default=fields.Date.context_today, required=True)
+    return_date = fields.Date(required=True)
+    state = fields.Selection([('draft', 'Draft'), ('rented', 'Rented'), ('returned', 'Returned'), ('lost', 'Lost')], default="draft")
 
-    customer_address = fields.Text(related='customer_id.address')
+    customer_address = fields.Text(compute='_compute_customer_address')
     customer_email = fields.Char(related='customer_id.email')
 
-    book_authors = fields.Many2many(related='book_id.author_ids')
-    book_edition_date = fields.Date(related='book_id.edition_date')
-    book_publisher = fields.Many2one(related='book_id.publisher_id')
+    book_authors = fields.Many2many(related='copy_id.author_ids')
+    book_edition_date = fields.Date(related='copy_id.edition_date')
+    book_publisher = fields.Many2one(related='copy_id.publisher_id')
 
-    amount_owed = fields.Monetary(compute='_compute_rental_cost', readonly=True)
-    total_owed = fields.Monetary(related='customer_id.total_owed', readonly=True)
-    paid = fields.Boolean(string='Rental Paid')
+    @api.depends('customer_id')
+    def _compute_customer_address(self):
+        self.customer_address = self.customer_id.address_get()
 
-    @api.depends('rental_date', 'return_date', 'is_lost')
-    def _compute_rental_cost(self):
-        for rental in self:
-            if rental.is_lost:
-                rental.amount_owed = 100.0  # 100€ lost fee TODO: find a way to make this, and late fee, a setting
-            elif rental.rental_date and rental.return_date:
-                days_rented = (rental.return_date - rental.rental_date).days
-                rental.amount_owed = rental.book_copy_id.list_price * days_rented
-                if days_rented > 7:
-                    rental.amount_owed += 10.0  # 10€ delay fee
+    def action_confirm(self):
+        for rec in self:
+            rec.state = 'rented'
+            rec.copy_id.book_state = 'rented'
+            rec.add_fee('time')
+
+    def add_fee(self, type):
+        for rec in self:
+            if type == 'time':
+                price_id = self.env.ref('library.price_rent')
+                delta_dates = fields.Date.from_string(rec.return_date) - fields.Date.from_string(rec.rental_date)
+                amount = delta_dates.days * price_id.price / price_id.duration
+            elif type == 'loss':
+                price_id = self.env.ref('library.price_loss')
+                amount = price_id.price
             else:
-                rental.amount_owed = 0
+                return
+
+            self.env['library.payment'].create({
+                'customer_id': rec.customer_id.id,
+                'date':        rec.rental_date,
+                'amount':      - amount,
+            })
+
+    def action_return(self):
+        for rec in self:
+            rec.state = 'returned'
+            rec.copy_id.book_state = 'available'
+
+    def action_lost(self):
+        for rec in self:
+            rec.state = 'lost'
+            rec.copy_id.book_state = 'lost'
+            rec.copy_id.active = False
+            rec.add_fee('loss')
+
+    @api.model
+    def _cron_check_date(self):
+        late_rentals = self.search([('state', '=', 'rented'), ('return_date', '<', fields.Date.today())])
+        template_id = self.env.ref('library.mail_template_book_return')
+        for rec in late_rentals:
+            mail_id = template_id.send_mail(rec.id)
