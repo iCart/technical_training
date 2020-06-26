@@ -17,10 +17,11 @@ class Books(models.Model):
 class BookCopy(models.Model):
     _name = 'library.copy'
     _description = 'Book Copy'
-    _rec_name = 'reference'
+    _rec_name = 'display_name'
 
     book_id = fields.Many2one('product.product', string="Book", domain=[('is_book', "=", True)], required=True, ondelete="cascade", delegate=True)
     reference = fields.Char(required=True, string="Ref")
+    display_name = fields.Char(compute='_compute_display_name', store=True)
 
     rental_ids = fields.One2many('library.rental', 'copy_id', string='Rentals')
     book_state = fields.Selection([('available', 'Available'), ('rented', 'Rented'), ('lost', 'Lost')], default="available")
@@ -30,16 +31,21 @@ class BookCopy(models.Model):
         self.ensure_one()
         reader_ids = self.rental_ids.mapped('customer_id')
         return {
-            'name':      'Readers of %s' % (self.name),
-            'type':      'ir.actions.act_window',
+            'name': 'Readers of %s' % (self.name),
+            'type': 'ir.actions.act_window',
             'res_model': 'res.partner',
             'view_mode': 'tree,form',
             'view_type': 'form',
-            'domain':    [('id', 'in', reader_ids.ids)],
-            'target':    'new',
+            'domain': [('id', 'in', reader_ids.ids)],
+            'target': 'new',
         }
 
     @api.depends('rental_ids.customer_id')
     def _compute_readers_count(self):
         for book in self:
             book.readers_count = len(book.mapped('rental_ids'))
+
+    @api.depends('book_id', 'reference')
+    def _compute_display_name(self):
+        for copy in self:
+            copy.display_name = "%s (%s)" % (copy.book_id.name, copy.reference)
