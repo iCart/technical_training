@@ -3,3 +3,5 @@ rental_manager,Rental Manager,model_library_rental,,1,1,1,1
 payment_manager,Payment Manager,model_library_payment,,1,1,1,1
 copy_manager,Copy Manager,model_library_copy,,1,1,1,1
 price_manager,Price Manager,model_library_price,,1,1,1,1
+product_public,Product Public,model_product_product,,1,0,0,0
+product_template_public,Product Template Public,product.model_product_template,,1,0,0,0

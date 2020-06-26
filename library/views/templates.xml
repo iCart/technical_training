@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="library.listing">
+        <t t-call="website.layout">
+            <t t-set="title">Books</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <t t-foreach="books" t-as="book">
+                        <p>
+                            <a t-attf-href="/library/rent/{{ slug(book) }}">
+                                <t t-esc="book.name"/>
+                            </a>
+                        </p>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
