@@ -31,7 +31,8 @@
         "views/menu_views.xml",
         "data/openacademy_data.xml",
         "data/email_template_data.xml",
-        "wizards/add_attendees.xml"
+        "wizards/add_attendees.xml",
+        "reports/session_report.xml"
     ],
     # only loaded in demonstration mode
     'demo':        [],
