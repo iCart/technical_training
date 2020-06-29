@@ -12,10 +12,14 @@
     'version': '2.0',
     'application': True,
     'depends': ['base', 'web'],
+    'qweb': [
+        'static/src/xml/*.xml',
+    ],
     'data': [
         'security/ir.model.access.csv',
         'views/awesome_tshirt_views.xml',
         'views/templates.xml',
+        'views/assets.xml',
     ],
     'license': 'AGPL-3'
 }

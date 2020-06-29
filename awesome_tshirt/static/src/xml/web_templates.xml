@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="awesome_counter_templates">
+    <div t-name="counter_template" owl="1">
+        <button class="decrement_btn fa fa-minus btn btn-primary"/>
+        <span class="val">
+            <t t-esc="widget.count"/>
+        </span>
+        <button class="increment_btn fa fa-plus btn btn-primary"/>
+    </div>
+</templates>

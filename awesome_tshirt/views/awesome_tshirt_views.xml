@@ -89,8 +89,14 @@
       <field name="context">{'group_by': ['state']}</field>
     </record>
 
+    <record id="awesome_tshirt.dashboard_action" model="ir.actions.client">
+      <field name="name">Orders Dashboard</field>
+      <field name="tag">awesome-tshirt-dashboard-action</field>
+    </record>
+
     <!-- menu items -->
     <menuitem name="Awesome T-Shirts" id="awesome_tshirt.menu_root" groups="base.group_user" web_icon="awesome_tshirt,static/description/icon.png"/>
     <menuitem name="Orders" id="awesome_tshirt.order" parent="awesome_tshirt.menu_root" action="awesome_tshirt.orders"/>
+    <menuitem name="Dashboard" id="awesome_tshirt.dashboard" parent="awesome_tshirt.menu_root" action="awesome_tshirt.dashboard_action"/>
 
 </odoo>
