@@ -13,7 +13,7 @@ odoo.define('awesome_tshirt.chart_widget', function (require) {
             self.values = [];
 
             Object.entries(value_object).forEach(function ([key, value]) {
-                self.keys.push(key.toUpperCase());
+                self.keys.push(key);
                 self.values.push(value);
             });
         },
@@ -39,6 +39,12 @@ odoo.define('awesome_tshirt.chart_widget', function (require) {
                 },
                 options: {
                     responsive: false,
+                    onClick: function (evt, chartElements) {
+                        //In a pie chart, chartElements is always of length 1
+                        var chartElement = chartElements[0];
+                        var label = self.chart.data.labels[chartElement._index];
+                        self.trigger_up('chart_element_clicked', {label: label});
+                    }
                 }
             });
         },

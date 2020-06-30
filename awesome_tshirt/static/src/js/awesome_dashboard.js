@@ -12,9 +12,11 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
             "click .new_orders_btn": "show_new_orders",
             "click .cancelled_orders_btn": "show_cancelled_orders",
         },
+        custom_events: {
+            "chart_element_clicked": "show_orders_for_size"
+        },
         start: function () {
             var self = this;
-
             return self._super.apply(arguments).then(function () {
                 self._rpc({
                     route: '/awesome_tshirt/statistics'
@@ -83,6 +85,16 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
         on_detach_callback: function () {
             clearInterval(this.interval);
         },
+        show_orders_for_size: function (event) {
+            var size = event.data.label;
+            this.do_action({
+                res_model: 'awesome_tshirt.order',
+                name: 'Orders with size ' + size,
+                views: [[false, 'list']],
+                domain: [['size', '=', size]],
+                type: 'ir.actions.act_window',
+            });
+        }
     });
 
     core.action_registry.add('awesome-tshirt.dashboard-action', DashboardAction);
