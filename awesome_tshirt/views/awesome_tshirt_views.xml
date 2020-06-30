@@ -91,7 +91,7 @@
 
     <record id="awesome_tshirt.dashboard_action" model="ir.actions.client">
       <field name="name">Orders Dashboard</field>
-      <field name="tag">awesome-tshirt-dashboard-action</field>
+      <field name="tag">awesome-tshirt.dashboard-action</field>
     </record>
 
     <!-- menu items -->

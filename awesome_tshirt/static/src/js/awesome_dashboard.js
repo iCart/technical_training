@@ -3,6 +3,7 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
 
     var AbstractAction = require('web.AbstractAction');
     var core = require('web.core');
+    var ChartWidget = require('awesome_tshirt.chart_widget');
 
     var DashboardAction = AbstractAction.extend({
         template: 't_shirt_dashboard_template',
@@ -12,9 +13,27 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
             "click .cancelled_orders_btn": "show_cancelled_orders",
         },
         start: function () {
-            this._rpc({
+            var self = this;
+
+            return self._super.apply(arguments).then(function () {
+                self._rpc({
+                    route: '/awesome_tshirt/statistics'
+                })
+                    .then(self.render_statistics.bind(self))
+                    .then(self.render_chart.bind(self));
+            });
+
+        },
+        update_data: function () {
+            var self = this;
+            self._rpc({
                 route: '/awesome_tshirt/statistics'
-            }).then(this.render_statistics.bind(this));
+            })
+                .then(self.render_statistics.bind(self))// Not part of the exercise, but might as well
+                .then(function (statistics) {
+                    self.chart_widget.set_data(statistics.orders_by_size);
+                });
+
         },
         show_customers: function () {
             this.do_action({
@@ -52,11 +71,21 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
             this.$('.avg_amount_field').text(statistics.average_quantity);
             this.$('.cancelled_orders_field').text(statistics.nb_cancelled_orders);
             this.$('.avg_processing_time_field').text(statistics.average_time);
-
-        }
+            return statistics;
+        },
+        render_chart: function (statistics) {
+            this.chart_widget = new ChartWidget(this, statistics.orders_by_size);
+            this.chart_widget.appendTo(this.$el);
+        },
+        on_attach_callback: function () {
+            this.interval = setInterval(this.update_data.bind(this), 30 * 1000);
+        },
+        on_detach_callback: function () {
+            clearInterval(this.interval);
+        },
     });
 
-    core.action_registry.add('awesome-tshirt-dashboard-action', DashboardAction);
+    core.action_registry.add('awesome-tshirt.dashboard-action', DashboardAction);
 
 
     return DashboardAction;

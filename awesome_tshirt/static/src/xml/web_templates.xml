@@ -14,4 +14,8 @@
             <label>Average processing time: <span class="avg_processing_time_field"/></label><br/>
         </div>
     </div>
+    <div t-name="t_shirt_dashboard_chart">
+        <p>Here be a chart:</p>
+        <canvas class="chartjs-render-monitor t-shirt-chart-area" width="400" height="400"/>
+    </div>
 </templates>
