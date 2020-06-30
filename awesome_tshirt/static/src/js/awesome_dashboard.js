@@ -11,6 +11,11 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
             "click .new_orders_btn": "show_new_orders",
             "click .cancelled_orders_btn": "show_cancelled_orders",
         },
+        start: function () {
+            this._rpc({
+                route: '/awesome_tshirt/statistics'
+            }).then(this.render_statistics.bind(this));
+        },
         show_customers: function () {
             this.do_action({
                 res_model: 'res.partner',
@@ -40,6 +45,14 @@ odoo.define('awesome_tshirt.dashboard', function (require) {
                 domain: [['create_date', '>', one_week_ago], ['state', '=', 'cancelled']],
                 type: 'ir.actions.act_window',
             });
+        },
+        render_statistics: function (statistics) {
+            this.$('.new_orders_field').text(statistics.nb_new_orders);
+            this.$('.total_orders_field').text(statistics.total_amount);
+            this.$('.avg_amount_field').text(statistics.average_quantity);
+            this.$('.cancelled_orders_field').text(statistics.nb_cancelled_orders);
+            this.$('.avg_processing_time_field').text(statistics.average_time);
+
         }
     });
 

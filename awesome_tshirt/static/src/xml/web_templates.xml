@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="awesome_counter_templates">
     <div t-name="t_shirt_dashboard_template" owl="1">
-        <button class="customers_btn btn btn-primary">Customers</button>
-        <button class="new_orders_btn btn btn-primary">New Orders</button>
-        <button class="cancelled_orders_btn btn btn-primary">Cancelled Orders</button>
+        <div>
+            <button class="customers_btn btn btn-primary">Customers</button>
+            <button class="new_orders_btn btn btn-primary">New Orders</button>
+            <button class="cancelled_orders_btn btn btn-primary">Cancelled Orders</button>
+        </div>
+        <div>
+            <label>New Orders this month: <span class="new_orders_field"/></label><br/>
+            <label>Total orders this month: <span class="total_orders_field"/></label><br/>
+            <label>Average amount this month: <span class="avg_amount_field"/></label><br/>
+            <label>Cancelled orders this month: <span class="cancelled_orders_field"/></label><br/>
+            <label>Average processing time: <span class="avg_processing_time_field"/></label><br/>
+        </div>
     </div>
 </templates>
