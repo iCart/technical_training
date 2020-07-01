@@ -20,6 +20,7 @@
               </group>
               <group>
                 <field name="image_url" widget="image_preview"/>
+                <field name="is_late"/>
               </group>
             </group>
           </sheet>
@@ -53,6 +54,7 @@
                 <div>Size: <field name="size"/></div>
                 <div>Quantity: <field name="quantity"/></div>
                 <div>Amount: <field name="amount"/></div>
+                <div>Is Late: <field name="is_late" widget="boolean"/></div>
               </div>
             </t>
           </templates>
@@ -68,6 +70,7 @@
           <field name="size"/>
           <field name="quantity"/>
           <field name="amount"/>
+          <field name="is_late" widget="boolean"/>
         </tree>
       </field>
     </record>
