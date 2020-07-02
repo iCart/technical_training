@@ -11,7 +11,7 @@
     'category': 'Extra Tools',
     'version': '2.0',
     'application': True,
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web', 'base_geolocalize'],
     'qweb': [
         'static/src/xml/*.xml',
     ],
