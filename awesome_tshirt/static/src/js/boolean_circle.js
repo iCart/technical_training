@@ -6,14 +6,13 @@ odoo.define('awesome_tshirt.boolean_circle', function (require) {
 
     FieldBoolean.include({
             _render: function () {
-                console.log('Calling FieldBoolean render')
-                var status_class;
+                var background_color;
                 if (this.value) {
-                    status_class = 'o_status o_status_red';
+                    background_color = this.nodeOptions.true_color || 'red';
                 } else {
-                    status_class = "o_status o_status_green";
+                    background_color = this.nodeOptions.false_color || 'green';
                 }
-                var html = '<span class="' + status_class + '" role="img" name="' + this.name + '"></span>';
+                var html = '<span class="o_status" role="img" name="' + this.name + '" style="background-color: ' + background_color + '"></span>';
                 this.$el.html(html);
             }
         }

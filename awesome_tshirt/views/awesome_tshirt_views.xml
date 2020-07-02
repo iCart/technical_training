@@ -54,7 +54,7 @@
                 <div>Size: <field name="size"/></div>
                 <div>Quantity: <field name="quantity"/></div>
                 <div>Amount: <field name="amount"/></div>
-                <div>Is Late: <field name="is_late" widget="boolean"/></div>
+                <div>Is Late: <field name="is_late" widget="boolean" options="{'true_color':'HotPink', 'false_color': '#00FF00'}"/></div>
               </div>
             </t>
           </templates>
