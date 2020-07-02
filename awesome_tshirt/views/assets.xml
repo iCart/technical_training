@@ -6,6 +6,7 @@
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/chart_widget.js"/>
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/image_preview.js"/>
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/boolean_circle.js"/>
+            <script type="text/javascript" src="/awesome_tshirt/static/src/js/warning_widget.js"/>
         </xpath>
     </template>
 </odoo>

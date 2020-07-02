@@ -22,6 +22,9 @@
                 <field name="image_url" widget="image_preview"/>
                 <field name="is_late"/>
               </group>
+              <group>
+                <widget name="t_shirt_warnings"/>
+              </group>
             </group>
           </sheet>
         </form>
