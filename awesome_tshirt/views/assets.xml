@@ -4,6 +4,7 @@
         <xpath expr="//script[last()]" position="after">
             <link type="text/scss" rel="stylesheet" href="/awesome_tshirt/static/src/css/custom_form_views.scss"/>
             <link type="text/scss" rel="stylesheet" href="/awesome_tshirt/static/src/css/quick_order_navigation.scss"/>
+            <link type="text/scss" rel="stylesheet" href="/awesome_tshirt/static/src/css/home_message.scss"/>
 
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/awesome_dashboard.js"/>
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/chart_widget.js"/>
@@ -12,6 +13,7 @@
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/warning_widget.js"/>
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/custom_form_view.js"/>
             <script type="text/javascript" src="/awesome_tshirt/static/src/js/quick_order_navigation.js"/>
+            <script type="text/javascript" src="/awesome_tshirt/static/src/js/home_message.js"/>
         </xpath>
     </template>
 </odoo>

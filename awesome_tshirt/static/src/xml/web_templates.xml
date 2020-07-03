@@ -30,4 +30,10 @@
         </li>
     </t>
 
+    <t t-name="awesome_tshirt.home_message">
+        <div>
+            <span class="home-message-span" t-esc="message"/>
+        </div>
+    </t>
+
 </templates>

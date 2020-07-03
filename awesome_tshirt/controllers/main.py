@@ -75,10 +75,14 @@ class OrderRoute(http.Controller):
         }
 
     @http.route('/awesome_tshirt/bafienistalkingtoyou', type='json', auth='user')
-    def bafienistalkingtoyou(self):
+    def _bafienistalkingtoyou(self):
         """
         Returns a message to display in the HomeMenu
         """
-        if random.random() > 0.5:
-            return "Bafien is watching you"
-        return "Bafien is totally sane. Also, please work harder."
+        return bafienistalkingtoyou()
+
+
+def bafienistalkingtoyou():
+    if random.random() > 0.5:
+        return "Bafien is watching you"
+    return "Bafien is totally sane. Also, please work harder."
