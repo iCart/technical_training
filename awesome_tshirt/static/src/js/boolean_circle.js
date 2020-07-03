@@ -2,9 +2,9 @@ odoo.define('awesome_tshirt.boolean_circle', function (require) {
     "use strict";
 
     var FieldBoolean = require('web.basic_fields').FieldBoolean;
+    var registry = require('web.field_registry');
 
-
-    FieldBoolean.include({
+    var BooleanCircle = FieldBoolean.extend({
             _render: function () {
                 var background_color;
                 if (this.value) {
@@ -17,6 +17,10 @@ odoo.define('awesome_tshirt.boolean_circle', function (require) {
             }
         }
     );
+
+    registry.add('boolean_circle', BooleanCircle);
+
+    return BooleanCircle;
 
 });
 

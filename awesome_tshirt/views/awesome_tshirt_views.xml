@@ -20,7 +20,7 @@
               </group>
               <group>
                 <field name="image_url" widget="image_preview"/>
-                <field name="is_late"/>
+                <field name="is_late" widget="boolean_circle"/>
               </group>
               <group>
                 <widget name="t_shirt_warnings"/>
@@ -57,7 +57,7 @@
                 <div>Size: <field name="size"/></div>
                 <div>Quantity: <field name="quantity"/></div>
                 <div>Amount: <field name="amount"/></div>
-                <div>Is Late: <field name="is_late" widget="boolean" options="{'true_color':'HotPink', 'false_color': '#00FF00'}"/></div>
+                <div>Is Late: <field name="is_late" widget="boolean_circle" options="{'true_color':'HotPink', 'false_color': '#00FF00'}"/></div>
               </div>
             </t>
           </templates>
@@ -73,7 +73,7 @@
           <field name="size"/>
           <field name="quantity"/>
           <field name="amount"/>
-          <field name="is_late" widget="boolean"/>
+          <field name="is_late" widget="boolean_circle"/>
         </tree>
       </field>
     </record>
